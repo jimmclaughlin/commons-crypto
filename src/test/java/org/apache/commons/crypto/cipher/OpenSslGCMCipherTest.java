@@ -67,18 +67,17 @@ public class OpenSslGCMCipherTest {
 
         int finalBytes = enc.doFinal (plainText, 0, 0, tmpText, updateBytes);
 
-        byte[] cipherText = Arrays.copyOf (tmpText, updateBytes + finalBytes);
+
 
         enc.close ();
 
-        System.out.println ("CipherText " + new String (cipherText, StandardCharsets.UTF_8));
 
         byte[] decryptedTempText = new byte[32];
 
 
-        int updateDecryptedBytes = dec.update (cipherText, 0, cipherText.length, decryptedTempText, decryptedTempText.length);
-        System.out.println ("cipherText len " + cipherText.length + " updateDecryptedBytes len " + updateDecryptedBytes);
-        int updateFinalBytes = dec.doFinal (cipherText, updateDecryptedBytes, cipherText.length - updateDecryptedBytes, decryptedTempText, updateDecryptedBytes);
+        int updateDecryptedBytes = dec.update (tmpText, 0, updateBytes + finalBytes, decryptedTempText, decryptedTempText.length);
+        System.out.println ("cipherText len " + (updateBytes + finalBytes) + " updateDecryptedBytes len " + updateDecryptedBytes);
+        int updateFinalBytes = dec.doFinal (tmpText, 0, updateBytes + finalBytes, decryptedTempText, updateDecryptedBytes);
 
         byte[] decryptedText = Arrays.copyOf (decryptedTempText, updateDecryptedBytes + updateFinalBytes);
 
