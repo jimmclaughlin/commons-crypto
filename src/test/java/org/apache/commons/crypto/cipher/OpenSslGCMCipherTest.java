@@ -37,7 +37,7 @@ public class OpenSslGCMCipherTest {
         String transform = "AES/GCM/NoPadding";
 
         Properties properties = new Properties();
-        properties.setProperty(CryptoCipherFactory.CLASSES_KEY, CryptoCipherFactory.CipherProvider.JCE.getClassName());
+        properties.setProperty(CryptoCipherFactory.CLASSES_KEY, CryptoCipherFactory.CipherProvider.OPENSSL.getClassName());
         CryptoCipher enc = Utils.getCipherInstance(transform, properties);
 
         CryptoCipher dec = Utils.getCipherInstance (transform, properties);
@@ -55,9 +55,9 @@ public class OpenSslGCMCipherTest {
 
         GCMParameterSpec gcmParameters = new GCMParameterSpec (96, nonce);
 
-        enc.init (OpenSsl.ENCRYPT_MODE, key, gcmParameters);
+        enc.init (Cipher.ENCRYPT_MODE, key, gcmParameters);
 
-        dec.init (OpenSsl.DECRYPT_MODE, key, gcmParameters);
+        dec.init (Cipher.DECRYPT_MODE, key, gcmParameters);
 
         byte[] plainText = "covfefe".getBytes (StandardCharsets.UTF_8);
 
@@ -75,11 +75,9 @@ public class OpenSslGCMCipherTest {
         byte[] decryptedTempText = new byte[32];
 
 
-        int updateDecryptedBytes = dec.update (tmpText, 0, updateBytes + finalBytes, decryptedTempText, decryptedTempText.length);
-        System.out.println ("cipherText len " + (updateBytes + finalBytes) + " updateDecryptedBytes len " + updateDecryptedBytes);
-        int updateFinalBytes = dec.doFinal (tmpText, 0, updateBytes + finalBytes, decryptedTempText, updateDecryptedBytes);
+        int updateFinalBytes = dec.doFinal (tmpText, 0, updateBytes + finalBytes, decryptedTempText, 0);
 
-        byte[] decryptedText = Arrays.copyOf (decryptedTempText, updateDecryptedBytes + updateFinalBytes);
+        byte[] decryptedText = Arrays.copyOf (decryptedTempText,  updateFinalBytes);
 
         System.out.println ("Decrypted Text " + new String (decryptedText, StandardCharsets.UTF_8));
 
