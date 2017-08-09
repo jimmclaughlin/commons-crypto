@@ -78,7 +78,7 @@ public class OpenSslGCMCipherTest {
 
         int updateDecryptedBytes = dec.update (cipherText, 0, cipherText.length, decryptedTempText, decryptedTempText.length);
         System.out.println ("cipherText len " + cipherText.length + " updateDecryptedBytes len " + updateDecryptedBytes);
-        int updateFinalBytes = dec.doFinal (cipherText, 0, 0, decryptedTempText, updateDecryptedBytes);
+        int updateFinalBytes = dec.doFinal (cipherText, updateDecryptedBytes, cipherText.length - updateDecryptedBytes, decryptedTempText, updateDecryptedBytes);
 
         byte[] decryptedText = Arrays.copyOf (decryptedTempText, updateDecryptedBytes + updateFinalBytes);
 
