@@ -37,7 +37,7 @@ public class OpenSslGCMCipherTest {
         String transform = "AES/GCM/NoPadding";
 
         Properties properties = new Properties();
-        properties.setProperty(CryptoCipherFactory.CLASSES_KEY, CryptoCipherFactory.CipherProvider.OPENSSL.getClassName());
+        properties.setProperty(CryptoCipherFactory.CLASSES_KEY, CryptoCipherFactory.CipherProvider.JCE.getClassName());
         CryptoCipher enc = Utils.getCipherInstance(transform, properties);
 
         CryptoCipher dec = Utils.getCipherInstance (transform, properties);
