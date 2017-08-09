@@ -14,10 +14,9 @@ public class OpenSslGCMCipherTest {
 
         try {
             OpenSsl.getInstance("AES/GCM/NoPadding");
-            Assert.fail("Should specify correct algorithm.");
+            Assert.assertTrue (true);
         } catch (NoSuchAlgorithmException e) {
-            Assert.assertTrue(e.getMessage().contains(
-                    "Doesn't support algorithm: AES2 and mode: GCM"));
+            Assert.fail ("AES/GCM/NoPadding Not Supported");
             throw e;
         }
     }
